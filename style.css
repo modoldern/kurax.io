@@ -14,6 +14,8 @@ body {
     flex-direction: column;
 }
 
+
+
 .logo-text {
     display: flex;
     align-items: center;
@@ -26,6 +28,8 @@ body {
     flex-direction: column;
     align-items: center;
 }
+
+
 
 .logo img {
     width: 250px;
@@ -51,4 +55,32 @@ body {
     border-right: 2px solid #ffffff;
     white-space: nowrap;
     overflow: hidden;
+}
+
+@media (max-width: 768px) {
+    body {
+        padding: 20px;
+    }
+
+    .logo-text {
+        flex-direction: column;
+        min-width: auto;
+        width: 100%;
+        gap: 0rem;
+    }
+
+    .logo img {
+        width: 150px;
+    }
+
+    .brand {
+        font-size: 3rem;
+    }
+
+    .text p {
+        font-size: 3rem;
+    }
+    .typewriter h1 {
+        font-size: 3rem;
+    }
 }

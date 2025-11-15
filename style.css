@@ -1,86 +1,94 @@
-body {
-    margin: 0;
-    padding: 0;
-    background-color: #00102a;
-    font-family: Arial, sans-serif;
-    color: #f4f4f4;
-}
+* {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+  }
 
-.container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-    flex-direction: column;
-}
+  #network-canvas {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      background: #0b0e14;
+      filter: blur(1px);
+  }
 
+  body {
+      font-family: "Inter", sans-serif;
+      background: #0b0e14;
+      color: white;
+      overflow-x: hidden;
+      height: 100vh;
+  }
 
+  #network-canvas {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      background: #0b0e14;
+      opacity: 0.;
+  }
 
-.logo-text {
-    display: flex;
-    align-items: center;
-    gap: 5rem;
-    min-width: 900px;
-}
+  .container {
+      width: 100%;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      text-align: center;
+  }
 
-.logo {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
+  .logo-text {
+      margin-bottom: 40px;
+      animation: fadein 6s ease forwards;
+      position: relative;
+      z-index: 999999999999999;
+      zoom: 2;
+  }
 
+  @keyframes fadein {
+      from {
+          opacity: 0;
+          transform: translateY(20px);
+      }
 
+      to {
+          opacity: 1;
+          transform: translateY(0);
+      }
+  }
 
-.logo img {
-    width: 250px;
-}
+  .logo img {
+      width: 110px;
+      margin-bottom: 15px;
+  }
 
-.brand {
-    font-size: 6rem;
-    font-weight: bold;
-    color: #f4f4f4;
-}
+  .brand {
+      font-size: 2.8rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+  }
 
-.x {
-    color: #006B71;
-}
+  .brand .x {
+      color: #4ff7ff;
+      text-shadow: 0 0 10px #48c7e6;
+  }
 
-.text p {
-    font-size: 6rem;
-    font-weight: bold;
-}
+  .text p {
+      font-size: 1.3rem;
+      opacity: 0.85;
+      line-height: 1.5;
+  }
 
-.typewriter h1 {
-    font-size: 6rem;
-    border-right: 2px solid #ffffff;
-    white-space: nowrap;
-    overflow: hidden;
-}
+  .typewriter h1 {
+      margin-top: 40px;
+      font-size: 2rem;
+      font-weight: 600;
+      border-right: 3px solid #4ff7ff;
+      white-space: nowrap;
+      overflow: hidden;
+      width: 0;
+  }
 
-@media (max-width: 768px) {
-    body {
-        padding: 20px;
-    }
-
-    .logo-text {
-        flex-direction: column;
-        min-width: auto;
-        width: 100%;
-        gap: 0rem;
-    }
-
-    .logo img {
-        width: 150px;
-    }
-
-    .brand {
-        font-size: 3rem;
-    }
-
-    .text p {
-        font-size: 3rem;
-    }
-    .typewriter h1 {
-        font-size: 3rem;
-    }
-}
+  

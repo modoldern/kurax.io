@@ -2,16 +2,113 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="shortcut icon" href="kuralogo.png" type="image/x-icon">
-    <title>KuraX</title>
-    <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KuraX — Coming Soon</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        #network-canvas {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            background: #0b0e14;
+            filter: blur(1px);
+        }
+
+        body {
+            font-family: "Inter", sans-serif;
+            background: #0b0e14;
+            color: white;
+            overflow-x: hidden;
+            height: 100vh;
+        }
+
+        #network-canvas {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            background: #0b0e14;
+            opacity: 0.;
+        }
+
+        .container {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .logo-text {
+            margin-bottom: 40px;
+            animation: fadein 6s ease forwards;
+            position: relative;
+            z-index: 999999999999999;
+            zoom: 2;
+        }
+
+        @keyframes fadein {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .logo img {
+            width: 110px;
+            margin-bottom: 15px;
+        }
+
+        .brand {
+            font-size: 2.8rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .brand .x {
+            color: #4ff7ff;
+            text-shadow: 0 0 10px #48c7e6;
+        }
+
+        .text p {
+            font-size: 1.3rem;
+            opacity: 0.85;
+            line-height: 1.5;
+        }
+
+        .typewriter h1 {
+            margin-top: 40px;
+            font-size: 2rem;
+            font-weight: 600;
+            border-right: 3px solid #4ff7ff;
+            white-space: nowrap;
+            overflow: hidden;
+            width: 0;
+        }
+    </style>
+
 </head>
 
 <body>
+
+    <canvas id="network-canvas"></canvas>
+
     <div class="container">
-      
+
         <div class="logo-text">
             <div class="logo">
                 <img src="kuralogo.png" alt="">
@@ -23,32 +120,100 @@
                     No hidden fees. Just people.</p>
             </div>
         </div>
+
         <div class="typewriter">
             <h1 id="type-text"></h1>
         </div>
+
     </div>
-</body>
-<script>
-  const text = "Coming soon!";
-    const speed = 100; 
-    let i = 0;
 
-    function typeWriter() {
-        if (i < text.length) {
-            document.getElementById("type-text").textContent += text.charAt(i);
-            i++;
-            setTimeout(typeWriter, speed);
-        } else {
-            setTimeout(() => {
-                document.getElementById("type-text").textContent = "";
-                i = 0;
-                typeWriter();
-            }, 1500);
+
+    <script>
+
+        const text = "Coming Soon...";
+        const el = document.getElementById("type-text");
+        let i = 0;
+
+        function typeWriter() {
+            if (i < text.length) {
+                el.style.width = (i + 1) + "ch";
+                el.textContent += text.charAt(i);
+                i++;
+                setTimeout(typeWriter, 100);
+            }
         }
-    }
 
-    window.onload = typeWriter;
+        setTimeout(typeWriter, 1000);
 
 
-</script>
+
+
+        const canvas = document.getElementById("network-canvas");
+        const ctx = canvas.getContext("2d");
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        resizeCanvas();
+        window.addEventListener("resize", resizeCanvas);
+
+        let nodes = [];
+        const NODE_COUNT = 90;
+
+        function createNodes() {
+            nodes = [];
+            for (let i = 0; i < NODE_COUNT; i++) {
+                nodes.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    vx: (Math.random() - 0.5) * 0.4,
+                    vy: (Math.random() - 0.5) * 0.4
+                });
+            }
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            for (let n of nodes) {
+                n.x += n.vx;
+                n.y += n.vy;
+
+                if (n.x < 0 || n.x > canvas.width) n.vx *= -1;
+                if (n.y < 0 || n.y > canvas.height) n.vy *= -1;
+
+                // Noktalar
+                ctx.beginPath();
+                ctx.arc(n.x, n.y, 2, 0, Math.PI * 2);
+                ctx.fillStyle = "#4ff7ff";
+                ctx.fill();
+
+                // Aralarındaki çizgiler
+                for (let other of nodes) {
+                    let dx = n.x - other.x;
+                    let dy = n.y - other.y;
+                    let dist = Math.sqrt(dx * dx + dy * dy);
+
+                    if (dist < 120) {
+                        ctx.strokeStyle = "rgba(79, 247, 255, " + (1 - dist / 120) + ")";
+                        ctx.lineWidth = 1;
+                        ctx.beginPath();
+                        ctx.moveTo(n.x, n.y);
+                        ctx.lineTo(other.x, other.y);
+                        ctx.stroke();
+                    }
+                }
+            }
+
+            requestAnimationFrame(draw);
+        }
+
+        createNodes();
+        draw();
+    </script>
+
+</body>
+
 </html>
